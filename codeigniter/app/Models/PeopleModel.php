@@ -36,9 +36,9 @@ class PeopleModel extends Model
      *
      * insert new person into the database
      */
-    public function addPerson($surname, $name, $street, $plz, $city, $created_by) {
+    public function addPerson($prename, $name, $street, $plz, $city, $created_by) {
         $data = [
-            'vorname' => $surname,
+            'vorname' => $prename,
             'name' => $name,
             'strasse' => $street,
             'plz' => $plz,
