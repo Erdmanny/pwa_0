@@ -15,7 +15,7 @@ class PeopleModel extends Model
     public function __construct()
     {
         $this->db = Database::connect();
-        $this->_people = $this->db->table('personen');
+        $this->_people = $this->db->table('persons');
     }
 
 
@@ -28,21 +28,21 @@ class PeopleModel extends Model
     }
 
     /**
-     * @param $surname
+     * @param $prename
      * @param $name
      * @param $street
-     * @param $plz
+     * @param $zip
      * @param $city
      *
      * insert new person into the database
      */
-    public function addPerson($prename, $name, $street, $plz, $city, $created_by) {
+    public function addPerson($prename, $name, $street, $zip, $city, $created_by) {
         $data = [
-            'vorname' => $prename,
+            'prename' => $prename,
             'name' => $name,
-            'strasse' => $street,
-            'plz' => $plz,
-            'ort' => $city,
+            'street' => $street,
+            'zip' => $zip,
+            'city' => $city,
             'created_by' => $created_by
         ];
         $this->_people->insert($data);
@@ -64,22 +64,22 @@ class PeopleModel extends Model
 
     /**
      * @param $id
-     * @param $surname
+     * @param $prename
      * @param $name
      * @param $street
-     * @param $plz
+     * @param $zip
      * @param $city
      *
      * update person with $id by given values
      */
-    public function updatePerson($id, $surname, $name, $street, $plz, $city, $edited_by){
+    public function updatePerson($id, $prename, $name, $street, $zip, $city, $edited_by){
         $this->_people->where("id", $id);
         $data = [
-            'vorname' => $surname,
+            'prename' => $prename,
             'name' => $name,
-            'strasse' => $street,
-            'plz' => $plz,
-            'ort' => $city,
+            'street' => $street,
+            'zip' => $zip,
+            'city' => $city,
             'edited_by' => $edited_by
         ];
         $this->_people->update($data);

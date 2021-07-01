@@ -47,9 +47,9 @@ $session = \Config\Services::session();
                                 ?>
                                 <tr>
                                     <td><?= $person->id ?></td>
-                                    <td><?= $person->vorname . " " . $person->name ?></td>
-                                    <td><?= $person->strasse ?></td>
-                                    <td><?= $person->plz . " " . $person->ort ?></td>
+                                    <td><?= $person->prename . " " . $person->name ?></td>
+                                    <td><?= $person->street ?></td>
+                                    <td><?= $person->zip . " " . $person->city ?></td>
                                     <td><?= $person->created_by ?></td>
                                     <td><?= $person->edited_by ?></td>
                                     <td class="text-center">
