@@ -4,6 +4,7 @@ use CodeIgniter\Model;
 use Config\Database;
 
 class UserModel extends Model{
+
     private $_user;
 
 

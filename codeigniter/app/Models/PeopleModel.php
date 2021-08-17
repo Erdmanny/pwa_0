@@ -15,7 +15,7 @@ class PeopleModel extends Model
     public function __construct()
     {
         $this->db = Database::connect();
-        $this->_people = $this->db->table('personen');
+        $this->_people = $this->db->table('people');
     }
 
 
@@ -28,21 +28,22 @@ class PeopleModel extends Model
     }
 
     /**
+     * @param $prename
      * @param $surname
-     * @param $name
      * @param $street
-     * @param $plz
+     * @param $zip
      * @param $city
      *
      * insert new person into the database
      */
-    public function addPerson($surname, $name, $street, $plz, $city, $created_by) {
+
+    public function addPerson($prename, $surname, $street, $zip, $city, $created_by) {
         $data = [
-            'vorname' => $surname,
-            'name' => $name,
-            'strasse' => $street,
-            'plz' => $plz,
-            'ort' => $city,
+            'prename' => $prename,
+            'surname' => $surname,
+            'street' => $street,
+            'zip' => $zip,
+            'city' => $city,
             'created_by' => $created_by
         ];
         $this->_people->insert($data);
@@ -53,6 +54,7 @@ class PeopleModel extends Model
      * @param $id
      * @return mixed - single person with $id
      */
+
     public function getSinglePerson($id)
     {
         return $this->_people
@@ -64,22 +66,23 @@ class PeopleModel extends Model
 
     /**
      * @param $id
+     * @param $prename
      * @param $surname
-     * @param $name
      * @param $street
-     * @param $plz
+     * @param $zip
      * @param $city
      *
      * update person with $id by given values
      */
-    public function updatePerson($id, $surname, $name, $street, $plz, $city, $edited_by){
+
+    public function updatePerson($id, $prename, $surname, $street, $zip, $city, $edited_by){
         $this->_people->where("id", $id);
         $data = [
-            'vorname' => $surname,
-            'name' => $name,
-            'strasse' => $street,
-            'plz' => $plz,
-            'ort' => $city,
+            'prename' => $prename,
+            'surname' => $surname,
+            'street' => $street,
+            'zip' => $zip,
+            'city' => $city,
             'edited_by' => $edited_by
         ];
         $this->_people->update($data);
@@ -90,8 +93,10 @@ class PeopleModel extends Model
      *
      * delete person with $id
      */
+
     public function deletePerson($id){
         $this->_people->where("id", $id);
         $this->_people->delete();
     }
+
 }

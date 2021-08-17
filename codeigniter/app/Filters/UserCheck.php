@@ -8,9 +8,6 @@ class UserCheck implements FilterInterface
 {
     public function before(RequestInterface $request, $arguments = null)
     {
-        // Do something here
-        // If segment 1 == users
-        //we have to redirect the request to the second segment
         $uri = service('uri');
         if($uri->getSegment(1) == 'user'){
             if($uri->getSegment(2) == '')

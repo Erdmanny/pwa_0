@@ -7,17 +7,15 @@ use App\Models\UserModel;
 class UserRules
 {
 
-    public function validateUser(string $str, string $fields, array $data)
+    public function validateUser(string $str, string $fields, array $data): bool
     {
         $_userModel = new UserModel();
-
-
         $user = $_userModel->validatePassword($data['email'], $data['password']);
-
         if (!$user) {
             return false;
         } else {
             return true;
         }
     }
+
 }

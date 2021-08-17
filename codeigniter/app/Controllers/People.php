@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use App\Models\PeopleModel;
+use CodeIgniter\HTTP\ResponseInterface;
 
 class People extends BaseController
 {
@@ -14,95 +15,82 @@ class People extends BaseController
         $this->_session = \Config\Services::session();
     }
 
-    public function index()
+    public function index(): string
     {
         $data['people'] = $this->_peopleModel->getPeople();
-        echo view('header');
-        echo view('people', $data);
-        echo view('footer');
+        return view('people', $data);
     }
 
-    public function addPerson()
+    public function addPerson(): string
     {
-        echo view('header');
-        echo view('addPerson');
-        echo view('footer');
+        return view('addPerson');
     }
 
     public function addPerson_Validation()
     {
         helper(['form', 'url']);
 
-        echo view('header');
-
         $error = $this->validate([
             'new-prename' => 'required',
             'new-surname' => 'required',
             'new-street' => 'required',
-            'new-postcode' => 'required|min_length[5]|max_length[5]|numeric',
+            'new-zip' => 'required|min_length[5]|max_length[5]|numeric',
             'new-city' => 'required'
         ],
         [
             'new-prename' => [
-                'required' => 'A prename is required'
+                'required' => 'A prename is required.'
             ],
             'new-surname' => [
-                'required' => 'A surname is required'
+                'required' => 'A surname is required.'
             ],
             'new-streetname' => [
-                'required' => 'A street is required'
+                'required' => 'A street is required.'
             ],
-            'new-postcode' => [
-                'required' => 'A postcode is required',
-                'min_length' => 'Postcode must be of length 5',
-                'max_length' => 'Postcode must be of length 5',
-                'numeric' => 'Postcode can only consist of numbers'
+            'new-zip' => [
+                'required' => 'A zip is required.',
+                'min_length' => 'Zip must be of length 5.',
+                'max_length' => 'Zip must be of length 5.',
+                'numeric' => 'Zip can only consist of numbers.'
             ],
             'new-city' => [
-                'required' => 'A city is required'
+                'required' => 'A city is required.'
             ],
         ]);
 
         if (!$error) {
-            echo view('addPerson', ['error' => $this->validator]);
+            return view('addPerson', ['error' => $this->validator]);
         } else {
             $this->_peopleModel->addPerson(
                 $this->request->getVar('new-prename'),
                 $this->request->getVar('new-surname'),
                 $this->request->getVar('new-street'),
-                $this->request->getVar('new-plz'),
+                $this->request->getVar('new-zip'),
                 $this->request->getVar('new-city'),
                 $this->_session->get('token')
             );
-
-            $this->_session->setFlashdata('success', 'Person added');
-
+            $this->_session->setFlashdata('success', 'Person added.');
             return $this->response->redirect(site_url("people"));
         }
 
-        echo view('footer');
     }
 
-    function getSinglePerson($id = null)
+    function editPerson($id = null): string
     {
         $data['person'] = $this->_peopleModel->getSinglePerson($id);
-
-        echo view('header');
-        echo view("editPerson", $data);
-        echo view('footer');
+        return view("editPerson", $data);
     }
 
     function editPerson_Validation()
     {
         helper(['form', 'url']);
 
-        echo view('header');
 
         $error = $this->validate([
             'edit-prename' => 'required',
             'edit-surname' => 'required',
             'edit-street' => 'required',
-            'edit-postcode' => 'required|min_length[5]|max_length[5]|numeric',
+            'edit-zip' => 'required|min_length[5]|max_length[5]|numeric',
             'edit-city' => 'required'
         ],
             [
@@ -115,11 +103,11 @@ class People extends BaseController
                 'edit-streetname' => [
                     'required' => 'A street is required'
                 ],
-                'edit-postcode' => [
-                    'required' => 'A postcode is required',
-                    'min_length' => 'Postcode must be of length 5',
-                    'max_length' => 'Postcode must be of length 5',
-                    'numeric' => 'Postcode can only consist of numbers'
+                'edit-zip' => [
+                    'required' => 'A zip is required',
+                    'min_length' => 'zip must be of length 5',
+                    'max_length' => 'zip must be of length 5',
+                    'numeric' => 'zip can only consist of numbers'
                 ],
                 'edit-city' => [
                     'required' => 'A city is required'
@@ -130,32 +118,27 @@ class People extends BaseController
             $id = $this->request->getVar('id');
             $data['person'] = $this->_peopleModel->getSinglePerson($id);
             $data['error'] = $this->validator;
-            echo view('editPerson', $data);
+            return view('editPerson', $data);
         } else {
             $this->_peopleModel->updatePerson(
                 $this->request->getVar('id'),
                 $this->request->getVar('edit-prename'),
                 $this->request->getVar('edit-surname'),
                 $this->request->getVar('edit-street'),
-                $this->request->getVar('edit-postcode'),
+                $this->request->getVar('edit-zip'),
                 $this->request->getVar('edit-city'),
                 $this->_session->get('token')
             );
-
             $this->_session->setFlashdata('success', 'Person updated');
-
             return $this->response->redirect(site_url("people"));
         }
 
-        echo view('footer');
     }
 
-    function deletePerson($id)
+    function deletePerson($id): ResponseInterface
     {
         $this->_peopleModel->deletePerson($id);
-
-        $this->_session->setFlashdata('success', 'Person deleted');
-
+        $this->_session->setFlashdata('success', 'Person deleted.');
         return $this->response->redirect(site_url("people"));
     }
 
