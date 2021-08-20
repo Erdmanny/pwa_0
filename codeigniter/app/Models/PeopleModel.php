@@ -6,7 +6,7 @@ use Config\Database;
 class PeopleModel extends Model
 {
 
-    private $_people;
+    private $_people, $_db;
 
     /**
      * Pwa_model constructor.
@@ -14,8 +14,8 @@ class PeopleModel extends Model
      */
     public function __construct()
     {
-        $this->db = Database::connect();
-        $this->_people = $this->db->table('people');
+        $this->_db = Database::connect();
+        $this->_people = $this->_db->table('people');
     }
 
 
