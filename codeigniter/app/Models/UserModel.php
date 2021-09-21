@@ -8,11 +8,23 @@ class UserModel extends Model{
     private $_user;
 
 
+    /**
+     * UserModel constructor.
+     * Connect to the database.
+     */
     public function __construct(){
         $this->db = Database::connect();
         $this->_user = $this->db->table('user');
     }
 
+
+    /**
+     * @param $email
+     * @param $password
+     * @return false|mixed
+     *
+     * Validate password and email
+     */
     public function validatePassword($email, $password){
       $user = $this->_user
             ->select()
@@ -25,6 +37,13 @@ class UserModel extends Model{
         return false;
     }
 
+    /**
+     * @param $email
+     * @param $password
+     * @param $token
+     *
+     * Insert new user into the database
+     */
     public function createUser($email, $password, $token){
         $data = [
             'email' => $email,

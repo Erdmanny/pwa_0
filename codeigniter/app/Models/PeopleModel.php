@@ -9,7 +9,7 @@ class PeopleModel extends Model
     private $_people, $_db;
 
     /**
-     * Pwa_model constructor.
+     * PeopleModel constructor.
      * Connect to the database.
      */
     public function __construct()
@@ -34,7 +34,7 @@ class PeopleModel extends Model
      * @param $zip
      * @param $city
      *
-     * insert new person into the database
+     * Insert new person into the database
      */
 
     public function addPerson($prename, $surname, $street, $zip, $city, $created_by) {

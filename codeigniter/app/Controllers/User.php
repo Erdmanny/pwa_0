@@ -8,6 +8,10 @@ class User extends BaseController
 {
     private $_userModel, $_session;
 
+    /**
+     * UserController constructor.
+     * Init model and session.
+     */
     public function __construct()
     {
         $this->_userModel = new UserModel();
@@ -15,12 +19,20 @@ class User extends BaseController
     }
 
 
+    /**
+     * @return string - Login View
+     */
     public function index(): string
     {
         return view('login');
     }
 
 
+    /**
+     * @return RedirectResponse|string
+     *
+     * Validate Login
+     */
     public function login()
     {
         helper(['form', 'url']);
@@ -61,12 +73,20 @@ class User extends BaseController
     }
 
 
+    /**
+     * @return string - Registration View
+     */
     public function showRegistration(): string
     {
         return view('register');
     }
 
 
+    /**
+     * @return RedirectResponse|string
+     *
+     * Validate Registration
+     */
     public function register()
     {
         helper(['form', 'url']);
@@ -113,6 +133,11 @@ class User extends BaseController
     }
 
 
+    /**
+     * @return RedirectResponse
+     *
+     * Destroy session and redirect.
+     */
     public function logout(): RedirectResponse
     {
         $this->_session->destroy();

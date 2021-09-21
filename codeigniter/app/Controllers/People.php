@@ -9,23 +9,39 @@ class People extends BaseController
 {
     private $_peopleModel, $_session;
 
+
+    /**
+     * PeopleController constructor.
+     * Init model and session.
+     */
     public function __construct()
     {
         $this->_peopleModel = new PeopleModel();
         $this->_session = \Config\Services::session();
     }
 
+    /**
+     * @return string - People View with data
+     */
     public function index(): string
     {
         $data['people'] = $this->_peopleModel->getPeople();
         return view('people', $data);
     }
 
+    /**
+     * @return string - AddPerson View
+     */
     public function addPerson(): string
     {
         return view('addPerson');
     }
 
+    /**
+     * @return ResponseInterface|string
+     *
+     * Validate AddPerson
+     */
     public function addPerson_Validation()
     {
         helper(['form', 'url']);
@@ -75,16 +91,24 @@ class People extends BaseController
 
     }
 
+    /**
+     * @param null $id
+     * @return string - Edit View with data
+     */
     function editPerson($id = null): string
     {
         $data['person'] = $this->_peopleModel->getSinglePerson($id);
         return view("editPerson", $data);
     }
 
+    /**
+     * @return ResponseInterface|string
+     *
+     * Validate EditPerson
+     */
     function editPerson_Validation()
     {
         helper(['form', 'url']);
-
 
         $error = $this->validate([
             'edit-prename' => 'required',
@@ -135,6 +159,12 @@ class People extends BaseController
 
     }
 
+    /**
+     * @param $id
+     * @return ResponseInterface
+     *
+     * Delete Person
+     */
     function deletePerson($id): ResponseInterface
     {
         $this->_peopleModel->deletePerson($id);
